@@ -43,7 +43,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
 
-            int res = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(deleteUserById)) {
             preparedStatement.setLong(1, id);
 
-            int res = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,15 +69,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
 
 
-//            while (resultSet.next()) {
-//                User user = new User();                                                            НЕ
-//                user.setId(resultSet.getLong(1));   НЕТ КОНСТРУКТОРА ДЛЯ ID                    отображается
-//                user.setName(resultSet.getString(2));                                              ИМЯ
-//                user.setLastName(resultSet.getString(3));                                      пользователя
-//                user.setAge(resultSet.getByte(4));
-//
-//                allUsers.add(user);
-//            }
+
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 String name = resultSet.getString(2);
@@ -93,7 +85,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
 
 
-//            return allUsers;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
