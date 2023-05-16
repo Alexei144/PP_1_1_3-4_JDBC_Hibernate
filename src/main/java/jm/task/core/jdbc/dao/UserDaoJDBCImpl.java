@@ -15,32 +15,24 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        String createTable = "CREATE TABLE Users (Id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(65), lastName VARCHAR(65), age TINYINT)";
+        String createTable = "CREATE TABLE IF NOT EXISTS Users (" +
+                "Id INT PRIMARY KEY AUTO_INCREMENT," +
+                "name VARCHAR(65)," +
+                "lastName VARCHAR(65)," +
+                "age TINYINT)";
         try (Statement statement = connection.createStatement()){
             statement.executeUpdate(createTable);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
     public void dropUsersTable() {
-        String deleteTable = "DROP TABLE Users";
+        String deleteTable = "DROP TABLE IF EXISTS  Users";
         try (Statement statement = connection.createStatement()){
             statement.executeUpdate(deleteTable);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
@@ -54,12 +46,6 @@ public class UserDaoJDBCImpl implements UserDao {
             int res = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
@@ -71,12 +57,6 @@ public class UserDaoJDBCImpl implements UserDao {
             int res = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
 
     }
@@ -89,25 +69,33 @@ public class UserDaoJDBCImpl implements UserDao {
 
 
 
+//            while (resultSet.next()) {
+//                User user = new User();                                                            НЕ
+//                user.setId(resultSet.getLong(1));   НЕТ КОНСТРУКТОРА ДЛЯ ID                    отображается
+//                user.setName(resultSet.getString(2));                                              ИМЯ
+//                user.setLastName(resultSet.getString(3));                                      пользователя
+//                user.setAge(resultSet.getByte(4));
+//
+//                allUsers.add(user);
+//            }
             while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getLong(1));
-                user.setName(resultSet.getString(2));
-                user.setLastName(resultSet.getString(3));
-                user.setAge(resultSet.getByte(4));
-
+                long id = resultSet.getLong(1);
+                String name = resultSet.getString(2);
+                String lastName = resultSet.getString(3);
+                byte age = resultSet.getByte(4);
+                User user = new User(name, lastName, age);
+                user.setId(id);
                 allUsers.add(user);
+
             }
+
+
+
+
 
 //            return allUsers;
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
         return allUsers;
     }
@@ -118,12 +106,6 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.executeUpdate(cleanTable);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 }
