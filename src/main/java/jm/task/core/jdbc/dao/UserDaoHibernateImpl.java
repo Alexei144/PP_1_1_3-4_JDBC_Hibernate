@@ -12,7 +12,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-
+        System.out.println("connection +");
     }
 
     @Override
