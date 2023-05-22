@@ -13,9 +13,7 @@ public class Main {
         // реализуйте алгоритм здесь
         UserService userService = new UserServiceImpl();
 
-
         userService.createUsersTable();
-
 
         userService.saveUser("Алексей", "Грильков", (byte)86);
 
@@ -25,14 +23,10 @@ public class Main {
 
         userService.saveUser("Леонель", "Месси", (byte)40);
 
-
-
         List<User> us = userService.getAllUsers();
         System.out.println(us);
 
-
         userService.cleanUsersTable();
-
 
         userService.dropUsersTable();
 
